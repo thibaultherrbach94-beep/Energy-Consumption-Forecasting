@@ -127,6 +127,26 @@ Le modèle final réduit le RMSE de 10.38 % par rapport au Ridge de référence.
 
 Le MAPE final est de 0.3988 %, ce qui signifie que l'écart absolu entre la prédiction et la consommation réelle représente en moyenne environ 0.40 % de la consommation observée.
 
+## Baseline comparison on the same 2026 test window
+
+Afin de contextualiser la performance du pipeline, deux baselines temporelles simples ont également été évaluées sur exactement les mêmes 12 239 observations que le modèle final :
+
+- `Naive 1 day` : la prédiction est la consommation observée 24 heures auparavant (`lag_48`) ;
+- `Naive 1 week` : la prédiction est la consommation observée une semaine auparavant (`lag_336`).
+
+| Model | MSE | RMSE (MW) | MAE (MW) | MAPE | NRMSE | R2 |
+|---|---:|---:|---:|---:|---:|---:|
+| Naive 1 day | 12,197,690 | 3492.52 | 2361.96 | 4.9913 % | 7.2157 % | 0.8448 |
+| Naive 1 week | 17,738,770 | 4211.74 | 3086.81 | 6.2654 % | 8.7017 % | 0.7743 |
+| Ridge | 81,529.45 | 285.53 | 208.88 | 0.4480 % | 0.5899 % | 0.9990 |
+| Ridge + MLP1 | 69,332.52 | 263.31 | 193.06 | 0.4134 % | 0.5440 % | 0.9991 |
+| Ridge + MLP1 + Patch | 65,601.06 | 256.13 | 186.30 | 0.3994 % | 0.5292 % | 0.9992 |
+| Final + Event Expert | 65,489.64 | 255.91 | 186.11 | 0.3988 % | 0.5287 % | 0.9992 |
+
+Sur cette fenêtre indépendante, le modèle final réduit le RMSE d'environ 92.67 % par rapport à la baseline naïve à un jour, de 93.92 % par rapport à la baseline naïve à une semaine, et de 10.38 % par rapport au Ridge.
+
+Les résultats détaillés de cette comparaison sont disponibles dans `results/final_2026_baseline_comparison.csv`.
+
 # Temporal Generalization
 
 Pour mesurer la stabilité temporelle du modèle, les performances 2025 et 2026 ont été comparées sur exactement la même fenêtre calendaire : du 15 janvier au 26 septembre.
@@ -225,7 +245,7 @@ La conclusion la plus rigoureuse est la suivante :
 - indices de drift conditionnel ;
 - pas de preuve suffisante permettant d'affirmer qu'un concept drift est démontré.
 
-  # Final Figures
+# Final Figures
 
 ## Model progression on the independent 2026 test
 
@@ -247,7 +267,7 @@ La conclusion la plus rigoureuse est la suivante :
 
 ![Extreme errors](figures/05_top1pct_errors_by_month.png)
 
-  # Conclusion
+# Conclusion
 
 Ce projet met en place un pipeline hybride de prévision de consommation électrique combinant statistique, machine learning et deep learning.
 
@@ -263,6 +283,8 @@ Sur le test indépendant 2026, le modèle atteint :
 
 Le pipeline complet réduit le RMSE de 10.38 % par rapport au Ridge de référence.
 
+La comparaison avec des baselines de persistance simples montre également un gain très important : environ 92.67 % de réduction du RMSE par rapport à la valeur observée un jour auparavant et 93.92 % par rapport à la valeur observée une semaine auparavant.
+
 L'évaluation sur des données futures met également en évidence une dégradation importante de la généralisation temporelle entre 2025 et 2026.
 
 L'analyse détaillée montre un covariate shift localisé ainsi qu'une concentration des erreurs dans certains régimes, notamment les températures élevées, les mois d'été, le milieu de journée et les week-ends.
@@ -276,9 +298,6 @@ The final 2026 dataset was kept completely independent from model training, mode
 Intermediate trained models and large processed datasets are not stored directly in this repository because of their size.
 
 The notebooks document the complete methodology, feature engineering, model development, validation protocol and final independent evaluation.
-
-
-
 
 ---
 
