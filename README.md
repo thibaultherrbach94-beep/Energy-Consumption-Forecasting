@@ -8,6 +8,18 @@ L'objectif est de prédire la consommation électrique à partir de l'historique
 
 Une attention particulière est portée à la validation temporelle. Le modèle final est évalué sur des données futures de 2026 totalement indépendantes des phases d'entraînement, de validation et de sélection des modèles.
 
+## Project Status
+
+This repository is an experimental Data Science and Machine Learning project.
+
+Its main objective is to explore, compare and combine a broad range of statistical, machine learning, deep learning and MLOps techniques on an energy forecasting problem.
+
+The project was developed as a technical experimentation environment rather than as a fully production-ready application.
+
+Some notebooks therefore contain exploratory code, intermediate experiments and alternative modeling approaches that were intentionally kept to document the development process.
+
+The final objective is not to provide a perfectly cleaned software package, but to demonstrate an end-to-end modeling workflow including feature engineering, model selection, uncertainty quantification, deep learning, temporal validation, drift analysis and initial deployment experiments.
+
 # Final Model
 
 Le modèle final est un pipeline hybride composé de quatre niveaux :
