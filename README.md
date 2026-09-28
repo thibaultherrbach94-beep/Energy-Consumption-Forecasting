@@ -39,7 +39,7 @@ The API was tested locally with the PostgreSQL database used during development.
 
 Set the PostgreSQL password:
 
-```powershell
+'''powershell
 $env:POSTGRES_PASSWORD = "your_password"
 
 # Final Model
