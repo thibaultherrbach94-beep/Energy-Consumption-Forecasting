@@ -7,3 +7,9 @@ joblib
 torch
 jupyter
 ipykernel
+
+fastapi
+uvicorn[standard]
+pydantic
+psycopg[binary]
+plotly
