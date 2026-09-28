@@ -20,6 +20,28 @@ Some notebooks therefore contain exploratory code, intermediate experiments and 
 
 The final objective is not to provide a perfectly cleaned software package, but to demonstrate an end-to-end modeling workflow including feature engineering, model selection, uncertainty quantification, deep learning, temporal validation, drift analysis and initial deployment experiments.
 
+## API & MLOps
+
+The project also includes an experimental FastAPI service connected to PostgreSQL.
+
+Main endpoints:
+
+- `GET /health`
+- `GET /database/health`
+- `GET /model/metrics`
+- `GET /prediction`
+- `GET /predictions`
+- `GET /predictions/chart`
+
+The API was tested locally with the PostgreSQL database used during development.
+
+### Run locally
+
+Set the PostgreSQL password:
+
+```powershell
+$env:POSTGRES_PASSWORD = "your_password"
+
 # Final Model
 
 Le modèle final est un pipeline hybride composé de quatre niveaux :
