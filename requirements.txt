@@ -16,3 +16,4 @@ plotly
 httpx
 pytest
 mlflow
+streamlit

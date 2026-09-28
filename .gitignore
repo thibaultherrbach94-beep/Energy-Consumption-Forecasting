@@ -41,3 +41,8 @@ data_processed/
 build/
 dist/
 *.egg-info/
+
+# Environment / secrets
+.env
+.env.*
+!.env.example
