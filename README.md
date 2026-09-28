@@ -276,3 +276,39 @@ The final 2026 dataset was kept completely independent from model training, mode
 Intermediate trained models and large processed datasets are not stored directly in this repository because of their size.
 
 The notebooks document the complete methodology, feature engineering, model development, validation protocol and final independent evaluation.
+
+
+
+
+---
+
+## Interactive Streamlit Dashboard
+
+An interactive Streamlit dashboard is included to explore model performance and temporal generalization.
+
+### Features
+
+- Development / validation analysis for 2025
+- Read-only independent final test for 2026
+- Real electricity demand vs model predictions
+- RMSE, MAE, MAPE, NRMSE and R²
+- Error distribution and extreme error analysis
+- Model progression:
+  - Ridge
+  - Ridge + residual MLP
+  - Patch Transformer
+  - Refined Event Expert
+- Historical comparison between 2025 and 2026
+- Custom period selection
+
+The 2026 results correspond to the frozen independent final test set.
+They are displayed for analysis only and are not used for training,
+hyperparameter tuning or model selection.
+
+### Run the API
+
+The 2025 development data are exposed through FastAPI and PostgreSQL.
+
+'''powershell
+$env:POSTGRES_PASSWORD = "your_postgresql_password"
+py -3.11 -m uvicorn api.main:app --reload --port 8000
