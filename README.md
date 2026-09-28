@@ -191,6 +191,28 @@ La conclusion la plus rigoureuse est la suivante :
 - indices de drift conditionnel ;
 - pas de preuve suffisante permettant d'affirmer qu'un concept drift est démontré.
 
+  # Final Figures
+
+## Model progression on the independent 2026 test
+
+![Model progression](figures/01_model_progression_2026.png)
+
+## Temporal generalization: 2025 vs 2026
+
+![2025 vs 2026](figures/02_matched_2025_vs_2026.png)
+
+## Monthly RMSE in 2026
+
+![Monthly RMSE](figures/03_monthly_rmse_2026.png)
+
+## Error by temperature regime
+
+![Temperature RMSE](figures/04_temperature_rmse_2026.png)
+
+## Extreme errors by month
+
+![Extreme errors](figures/05_top1pct_errors_by_month.png)
+
   # Conclusion
 
 Ce projet met en place un pipeline hybride de prévision de consommation électrique combinant statistique, machine learning et deep learning.
