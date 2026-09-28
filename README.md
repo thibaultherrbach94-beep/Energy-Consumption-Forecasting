@@ -129,23 +129,33 @@ Le MAPE final est de 0.3988 %, ce qui signifie que l'écart absolu entre la pré
 
 ## Baseline comparison on the same 2026 test window
 
-Afin de contextualiser la performance du pipeline, deux baselines temporelles simples ont également été évaluées sur exactement les mêmes 12 239 observations que le modèle final :
+Afin de contextualiser la performance du pipeline, plusieurs références ont été évaluées sur exactement les mêmes 12 239 observations que le modèle final :
 
-- `Naive 1 day` : la prédiction est la consommation observée 24 heures auparavant (`lag_48`) ;
-- `Naive 1 week` : la prédiction est la consommation observée une semaine auparavant (`lag_336`).
+- `Naive 1 day` : consommation observée 24 heures auparavant (`lag_48`) ;
+- `Naive 1 week` : consommation observée une semaine auparavant (`lag_336`) ;
+- `OLS - Basic features` : régression linéaire simple utilisant seulement 9 variables de base (`lag_1`, `lag_48`, `lag_336`, encodages cycliques de l'heure, du jour de la semaine et du mois) ;
+- `Ridge` : baseline principale haute dimension du pipeline final.
 
-| Model | MSE | RMSE (MW) | MAE (MW) | MAPE | NRMSE | R2 |
-|---|---:|---:|---:|---:|---:|---:|
-| Naive 1 day | 12,197,690 | 3492.52 | 2361.96 | 4.9913 % | 7.2157 % | 0.8448 |
-| Naive 1 week | 17,738,770 | 4211.74 | 3086.81 | 6.2654 % | 8.7017 % | 0.7743 |
-| Ridge | 81,529.45 | 285.53 | 208.88 | 0.4480 % | 0.5899 % | 0.9990 |
-| Ridge + MLP1 | 69,332.52 | 263.31 | 193.06 | 0.4134 % | 0.5440 % | 0.9991 |
-| Ridge + MLP1 + Patch | 65,601.06 | 256.13 | 186.30 | 0.3994 % | 0.5292 % | 0.9992 |
-| Final + Event Expert | 65,489.64 | 255.91 | 186.11 | 0.3988 % | 0.5287 % | 0.9992 |
+L'OLS simple est entraîné uniquement sur les données historiques jusqu'au 31 décembre 2025 et évalué sur la même fenêtre indépendante 2026. Il est utilisé comme benchmark explicatif du gain apporté par le feature engineering et ne sert pas à modifier ou sélectionner le pipeline final après observation de 2026.
 
-Sur cette fenêtre indépendante, le modèle final réduit le RMSE d'environ 92.67 % par rapport à la baseline naïve à un jour, de 93.92 % par rapport à la baseline naïve à une semaine, et de 10.38 % par rapport au Ridge.
+| Model | MSE | RMSE (MW) | MAE (MW) | MAPE | NRMSE | R2 | Final RMSE gain |
+|---|---:|---:|---:|---:|---:|---:|---:|
+| Naive 1 day | 12,197,690 | 3492.52 | 2361.96 | 4.9913 % | 7.2157 % | 0.8448 | 92.67 % |
+| Naive 1 week | 17,738,770 | 4211.74 | 3086.81 | 6.2654 % | 8.7017 % | 0.7743 | 93.92 % |
+| OLS - Basic features | 783,700.9 | 885.27 | 690.97 | 1.4432 % | 1.8290 % | 0.9900 | 71.09 % |
+| Ridge | 81,529.45 | 285.53 | 208.88 | 0.4480 % | 0.5899 % | 0.9990 | 10.38 % |
+| Ridge + MLP1 | 69,332.52 | 263.31 | 193.06 | 0.4134 % | 0.5440 % | 0.9991 | 2.81 % |
+| Ridge + MLP1 + Patch | 65,601.06 | 256.13 | 186.30 | 0.3994 % | 0.5292 % | 0.9992 | 0.09 % |
+| Final + Event Expert | 65,489.64 | 255.91 | 186.11 | 0.3988 % | 0.5287 % | 0.9992 | 0.00 % |
 
-Les résultats détaillés de cette comparaison sont disponibles dans `results/final_2026_baseline_comparison.csv`.
+Cette comparaison met en évidence deux niveaux d'amélioration :
+
+- le passage de l'OLS simple au Ridge enrichi réduit très fortement l'erreur, ce qui illustre l'impact du feature engineering et de la représentation haute dimension ;
+- les corrections résiduelles MLP, Patch Transformer et Event Expert améliorent ensuite progressivement la baseline Ridge.
+
+Sur cette fenêtre indépendante, le modèle final réduit le RMSE d'environ 71.09 % par rapport à l'OLS simple, de 10.38 % par rapport au Ridge, de 92.67 % par rapport à la baseline naïve à un jour et de 93.92 % par rapport à la baseline naïve à une semaine.
+
+Les résultats détaillés sont disponibles dans `results/final_2026_baseline_comparison.csv`.
 
 # Temporal Generalization
 
@@ -282,6 +292,8 @@ Sur le test indépendant 2026, le modèle atteint :
 - R2 : 0.9992
 
 Le pipeline complet réduit le RMSE de 10.38 % par rapport au Ridge de référence.
+
+Le benchmark OLS simple à 9 variables atteint un RMSE de 885.27 MW sur la même fenêtre 2026 ; le modèle final réduit ce RMSE d'environ 71.09 %. Cette comparaison illustre notamment l'importance du feature engineering haute dimension avant même les raffinements deep learning.
 
 La comparaison avec des baselines de persistance simples montre également un gain très important : environ 92.67 % de réduction du RMSE par rapport à la valeur observée un jour auparavant et 93.92 % par rapport à la valeur observée une semaine auparavant.
 
