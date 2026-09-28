@@ -212,3 +212,11 @@ L'évaluation sur des données futures met également en évidence une dégradat
 L'analyse détaillée montre un covariate shift localisé ainsi qu'une concentration des erreurs dans certains régimes, notamment les températures élevées, les mois d'été, le milieu de journée et les week-ends.
 
 Le projet illustre ainsi l'importance de ne pas seulement optimiser un modèle sur une période historique, mais également d'évaluer sa robustesse sur des données réellement futures.
+
+## Reproducibility
+
+The final 2026 dataset was kept completely independent from model training, model selection and hyperparameter tuning.
+
+Intermediate trained models and large processed datasets are not stored directly in this repository because of their size.
+
+The notebooks document the complete methodology, feature engineering, model development, validation protocol and final independent evaluation.
