@@ -56,13 +56,13 @@ Un réseau de neurones apprend ensuite à prédire les résidus laissés par le 
 
 La prédiction devient :
 
-$$
+**
 \hat{y}_{MLP}
 =
 \hat{y}_{Ridge}
 +
 \hat{r}_{MLP}
-$$
+**
 
 ### Patch Transformer
 
